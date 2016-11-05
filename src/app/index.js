@@ -4,9 +4,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {TechsModule} from './techs';
 
 import {MainComponent} from './main';
-import {HeaderComponent} from './header';
-import {TitleComponent} from './title';
-import {FooterComponent} from './footer';
 
 @NgModule({
   imports: [
@@ -14,10 +11,7 @@ import {FooterComponent} from './footer';
     TechsModule
   ],
   declarations: [
-    MainComponent,
-    HeaderComponent,
-    TitleComponent,
-    FooterComponent
+    MainComponent
   ],
   bootstrap: [MainComponent]
 })
