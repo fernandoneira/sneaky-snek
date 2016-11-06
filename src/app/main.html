@@ -7,6 +7,7 @@
     <span>20</span>
   </div>
   
-  <canvas #gridCanvas [attr.width]="gridWidth" [attr.height]="gridHeight"></canvas>
+  <canvas #gridCanvas [attr.width]="gridSettings.width" [attr.height]="gridSettings.height"></canvas>
+  <sneaky-snek-snake #snake [gridCanvas]="gridCanvas" [gridSettings]="gridSettings"></sneaky-snek-snake>
 
 </section>

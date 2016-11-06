@@ -1,17 +1,16 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
-import {TechsModule} from './techs';
-
 import {MainComponent} from './main';
+import {SnakeComponent} from './snake';
 
 @NgModule({
   imports: [
-    BrowserModule,
-    TechsModule
+    BrowserModule
   ],
   declarations: [
-    MainComponent
+    MainComponent,
+    SnakeComponent
   ],
   bootstrap: [MainComponent]
 })
