@@ -9,6 +9,7 @@ export class MainComponent {
   @ViewChild("gridCanvas") gridCanvas: ElementRef;
   @ViewChild("snake") snake: SnakeComponent;
   gridSettings: {};
+  relativeDirectionChangeRequest: string;
 
   constructor() {
     // 800/16 = 50x50 cells
@@ -39,7 +40,11 @@ export class MainComponent {
   }
 
   update() {
-    this.snake.move(this.snake.direction);
+    const snakeDirection = this.snake.getDirection(this.relativeDirectionChangeRequest);
+    this.snake.direction = snakeDirection;
+    this.snake.move();
+    // Reset direction change request, if any
+    this.relativeDirectionChangeRequest = "";
   }
 
   draw() {
@@ -50,4 +55,19 @@ export class MainComponent {
     this.snake.draw();
   }
 
+  onKey(event: any) {
+    console.log(event, event.keyCode, event.keyIdentifier);
+    switch (event.key) {
+      case 'ArrowLeft':
+        // Set (or overwrite) a direction change to the left request for the next game update
+        this.relativeDirectionChangeRequest = "left";
+        break;
+      case 'ArrowRight':
+        // Set (or overwrite) a direction change to the right request for the next game update
+        this.relativeDirectionChangeRequest = "right";
+        break;
+      default:
+        break;
+    }
+  }
 }

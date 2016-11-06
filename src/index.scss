@@ -4,6 +4,10 @@ html, body, #root {
   font-family: 'Open Sans', sans-serif;  
 }
 
+// Disable chrome outlining
+*:focus {
+    outline: none;
+}
 
 .sneaky-snek {
   // Centered 800px wide not responsive display area

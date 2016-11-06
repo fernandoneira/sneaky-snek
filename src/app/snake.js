@@ -38,12 +38,12 @@ export class SnakeComponent {
     }
   }
 
-  move(direction: string) {
+  move() {
     // TODO check for ilegal moves
     // TODO check if snake hits itself (here or somwhere else)
     const head = this.segments[this.segments.length - 1];
     // Add new head
-    switch (direction) {
+    switch (this.direction) {
       case 'down': {
         const newY = head.y === this.gridSettings.verticalCells ?
                       0 :
@@ -73,9 +73,46 @@ export class SnakeComponent {
         break;
       }
       default:
-        throw new Error(`direction not recognized: ${direction}`);
+        throw new Error(`direction not recognized: ${this.direction}`);
     }
     // Remove last segment
     this.segments.shift();
+  }
+
+  getDirection(relativeDirectionChange: string) {
+    if (relativeDirectionChange) {
+      switch (relativeDirectionChange) {
+        case 'left':
+          switch (this.direction) {
+            case 'down':
+              return 'right';
+            case 'up':
+              return 'left';
+            case 'left':
+              return 'down';
+            case 'right':
+              return 'up';
+            default:
+              throw new Error(`direction not recognized: ${this.direction}`);
+          }
+        case 'right':
+          switch (this.direction) {
+            case 'down':
+              return 'left';
+            case 'up':
+              return 'right';
+            case 'left':
+              return 'up';
+            case 'right':
+              return 'down';
+            default:
+              throw new Error(`direction not recognized: ${this.direction}`);
+          }
+        default:
+          throw new Error(`relative direction change not recognized: ${relativeDirectionChange}`);
+      }
+    } else {
+      return this.direction;
+    }
   }
 }
