@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, CanvasRenderingContext2D} from '@angular/c
 
 @Component({
   selector: 'sneaky-snek-snake',
-  template: require('./snake.html')
+  template: ''
 })
 export class SnakeComponent {
   @Input() gridCanvas: ElementRef;
