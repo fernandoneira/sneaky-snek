@@ -13,6 +13,8 @@ html, body, #root {
   // Centered 800px wide not responsive display area
   width: 800px;
   margin: auto;
+  // Helping to position the menu overlay
+  position: relative;
 
   h1 {
     text-align: center;
@@ -22,6 +24,21 @@ html, body, #root {
     text-align: right;
     padding: 5px 50px;
     margin-bottom: -40px;
+  }
+
+  .menu {
+    // Absolute centering
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: translate(50%, 50%);
+    .menu-play {
+      // Absolute centering
+      transform: translate(-50%, -50%);
+      
+      padding: 20px 50px;
+      font-size: 2em;
+    }
   }
 
   canvas {

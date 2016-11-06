@@ -6,6 +6,10 @@
     Score:
     <span>20</span>
   </div>
+
+  <div class="menu" *ngIf="!running">
+    <button class="menu-play" type="button" (click)="onClickPlay()" >{{playButtonText}}</button>
+  </div>
   
   <canvas #gridCanvas [attr.width]="gridSettings.width" [attr.height]="gridSettings.height"></canvas>
   <sneaky-snek-snake #snake [gridCanvas]="gridCanvas" [gridSettings]="gridSettings"></sneaky-snek-snake>

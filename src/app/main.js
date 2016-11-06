@@ -10,8 +10,12 @@ export class MainComponent {
   @ViewChild("snake") snake: SnakeComponent;
   gridSettings: {};
   relativeDirectionChangeRequest: string;
+  running: true;
+  intervalLoopId: number;
+  playButtonText: string;
 
   constructor() {
+    this.playButtonText = "Play";
     // 800/16 = 50x50 cells
     const gridWidth = 800;
     const gridHeight = 800;
@@ -25,13 +29,22 @@ export class MainComponent {
     };
   }
 
-  ngAfterViewInit() {
-    // Init game setup
+  start() {
+    this.running = true;
+    // Spawn game elements
+    this.spawnElements();
+    // Init game draw
     this.draw();
     // Start the game loop
-    setInterval(() => {
+    this.intervalLoopId = setInterval(() => {
       this.runStep();
     }, 400);
+  }
+
+  stop() {
+    clearInterval(this.intervalLoopId);
+    this.playButtonText = "Play again";
+    this.running = false;
   }
 
   runStep() {
@@ -39,12 +52,22 @@ export class MainComponent {
     this.draw();
   }
 
+  spawnElements() {
+    this.snake.spawn();
+  }
+
   update() {
+    // Move snake in the proper direction
     const snakeDirection = this.snake.getDirection(this.relativeDirectionChangeRequest);
     this.snake.direction = snakeDirection;
     this.snake.move();
-    // Reset direction change request, if any
+    // Scrap direction change request for this step, if any
     this.relativeDirectionChangeRequest = "";
+    // If the snake died, stop game
+    const isDead = this.snake.isDead();
+    if (isDead) {
+      this.stop();
+    }
   }
 
   draw() {
@@ -53,6 +76,14 @@ export class MainComponent {
     canvasContext.clearRect(0, 0, this.gridSettings.width, this.gridSettings.height);
     // Draw elements
     this.snake.draw();
+  }
+
+  onClickPlay() {
+    if (this.running) {
+      console.warn("User clicked play button but game is already running");
+    } else {
+      this.start();
+    }
   }
 
   onKey(event: any) {

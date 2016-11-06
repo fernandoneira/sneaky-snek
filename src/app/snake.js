@@ -10,8 +10,8 @@ export class SnakeComponent {
   segments: {x: number, y: number}[];
   direction: string;
 
-  ngAfterViewInit() {
-    // Head is centered, rest of body appears to the right
+  spawn() {
+    // Head is centered, rest of body appears to the bottom
     const startingLength = 6;
     this.segments = [];
     for (let i = 0; i < startingLength; i++) {
@@ -114,5 +114,11 @@ export class SnakeComponent {
     } else {
       return this.direction;
     }
+  }
+
+  isDead() {
+    // If the head hit the body, snake is dead
+    const head = this.segments[this.segments.length - 1];
+    return this.segments.filter(segment => segment.x === head.x && segment.y === head.y).length > 1;
   }
 }
