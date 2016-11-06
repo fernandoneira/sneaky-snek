@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
+import {Component, ViewChild, ElementRef, CanvasRenderingContext2D} from '@angular/core';
 import {SnakeComponent} from './snake';
 
 @Component({
@@ -26,21 +26,28 @@ export class MainComponent {
 
   ngAfterViewInit() {
     // Init game setup
-    this.snake.draw();
+    this.draw();
     // Start the game loop
-    // setInterval(this.runStep, 500);
-
-    const canvasContext = this.gridCanvas.nativeElement.getContext("2d");
-    // happy drawing from here on
-    canvasContext.fillStyle = 'blue';
-    // Sample snake segment
-    canvasContext.fillRect(this.cellSize, this.cellSize, this.cellSize, this.cellSize);
+    setInterval(() => {
+      this.runStep();
+    }, 400);
   }
 
-  // runStep() {
-  //   this.moveSnake();
-  // }
+  runStep() {
+    this.update();
+    this.draw();
+  }
 
-  // moveSnake() {
-  // }
+  update() {
+    this.snake.move(this.snake.direction);
+  }
+
+  draw() {
+    // Clear canvas
+    const canvasContext: CanvasRenderingContext2D = this.gridCanvas.nativeElement.getContext("2d");
+    canvasContext.clearRect(0, 0, this.gridSettings.width, this.gridSettings.height);
+    // Draw elements
+    this.snake.draw();
+  }
+
 }
