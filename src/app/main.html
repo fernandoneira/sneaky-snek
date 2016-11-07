@@ -13,5 +13,6 @@
   
   <canvas #gridCanvas [attr.width]="gridSettings.width" [attr.height]="gridSettings.height"></canvas>
   <sneaky-snek-snake #snake [gridCanvas]="gridCanvas" [gridSettings]="gridSettings"></sneaky-snek-snake>
+  <sneaky-snek-pellet #pellets *ngFor="let pellet of pellets" [gridCanvas]="gridCanvas" [gridSettings]="gridSettings"></sneaky-snek-pellet>
 
 </section>

@@ -1,21 +1,29 @@
 import {Component, ViewChild, ElementRef, CanvasRenderingContext2D} from '@angular/core';
 import {SnakeComponent} from './snake';
+import {PelletComponent} from './pellet';
+const _ = require('lodash');
+const Random = require("random-js")();
 
 @Component({
   selector: 'sneaky-snek-app',
-  template: require('./main.html')
+  template: require('./main.html'),
+  directives: [PelletComponent]
 })
 export class MainComponent {
   @ViewChild("gridCanvas") gridCanvas: ElementRef;
   @ViewChild("snake") snake: SnakeComponent;
+  pellets: [];
   gridSettings: {};
   relativeDirectionChangeRequest: string;
   running: true;
   intervalLoopId: number;
   playButtonText: string;
+  pelletsCount: number;
 
   constructor() {
     this.playButtonText = "Play";
+    this.pellets = [];
+    this.pelletsCount = 8;
     // 800/16 = 50x50 cells
     const gridWidth = 800;
     const gridHeight = 800;
@@ -38,7 +46,7 @@ export class MainComponent {
     // Start the game loop
     this.intervalLoopId = setInterval(() => {
       this.runStep();
-    }, 400);
+    }, 250);
   }
 
   stop() {
@@ -54,6 +62,9 @@ export class MainComponent {
 
   spawnElements() {
     this.snake.spawn();
+    for (let i = 0; i < this.pelletsCount; i++) {
+      this.addPellet();
+    }
   }
 
   update() {
@@ -68,6 +79,35 @@ export class MainComponent {
     if (isDead) {
       this.stop();
     }
+    // TODO If snake is on top of pellet, eat it
+    // Remove expired pellets
+    _.remove(this.pellets, pellet => {
+      return pellet.expired;
+    });
+    // add more pellets until we have pelletsCount again, in case we removed any
+    for (let i = this.pellets.length; i < this.pelletsCount; i++) {
+      this.addPellet();
+    }
+  }
+
+  addPellet() {
+    // Choose a random position that does not collide with other game elements todo let game elements decide if a position is taken by them
+    let randomPosition;
+    let positionTaken = false;
+    do {
+      randomPosition = {
+        x: Random.integer(0, this.gridSettings.horizontalCells),
+        y: Random.integer(0, this.gridSettings.verticalCells)
+      };
+      positionTaken = _.some(this.snake.segments, {x: randomPosition.x, y: randomPosition.y}) ||
+                      _.some(this.pellets, {x: randomPosition.x, y: randomPosition.y});
+    } while (positionTaken);
+    // Create pellet and add to array
+    const pellet = new PelletComponent();
+    pellet.gridCanvas = this.gridCanvas;
+    pellet.gridSettings = this.gridSettings;
+    pellet.spawn(randomPosition.x, randomPosition.y);
+    this.pellets.push(pellet);
   }
 
   draw() {
@@ -76,6 +116,7 @@ export class MainComponent {
     canvasContext.clearRect(0, 0, this.gridSettings.width, this.gridSettings.height);
     // Draw elements
     this.snake.draw();
+    this.pellets.forEach(pellet => pellet.draw());
   }
 
   onClickPlay() {

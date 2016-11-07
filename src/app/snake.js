@@ -40,7 +40,6 @@ export class SnakeComponent {
 
   move() {
     // TODO check for ilegal moves
-    // TODO check if snake hits itself (here or somwhere else)
     const head = this.segments[this.segments.length - 1];
     // Add new head
     switch (this.direction) {

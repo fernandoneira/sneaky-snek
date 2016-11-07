@@ -3,6 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {MainComponent} from './main';
 import {SnakeComponent} from './snake';
+import {PelletComponent} from './pellet';
 
 @NgModule({
   imports: [
@@ -10,7 +11,8 @@ import {SnakeComponent} from './snake';
   ],
   declarations: [
     MainComponent,
-    SnakeComponent
+    SnakeComponent,
+    PelletComponent
   ],
   bootstrap: [MainComponent]
 })
