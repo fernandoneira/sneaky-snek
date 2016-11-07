@@ -19,6 +19,7 @@ export class MainComponent {
   intervalLoopId: number;
   playButtonText: string;
   pelletsCount: number;
+  score: number;
 
   constructor() {
     this.playButtonText = "Play";
@@ -39,6 +40,7 @@ export class MainComponent {
 
   start() {
     this.running = true;
+    this.score = 0;
     // Spawn game elements
     this.spawnElements();
     // Init game draw
@@ -68,10 +70,23 @@ export class MainComponent {
   }
 
   update() {
-    // Move snake in the proper direction
+    // Recalculate snake direction and next head position
     const snakeDirection = this.snake.getDirection(this.relativeDirectionChangeRequest);
     this.snake.direction = snakeDirection;
-    this.snake.move();
+    const nextHeadPosition = this.snake.getNextHeadPosition();
+    // If snake is moving on top of pellet, eat it
+    const ediblePellet = _.find(this.pellets, {position: nextHeadPosition});
+    if (ediblePellet) {
+      // Remove it from active pellets
+      _.pull(this.pellets, ediblePellet);
+      // Increase score
+      this.score++;
+      // Grow snake
+      this.snake.grow();
+    } else {
+      // Just move snake
+      this.snake.move();
+    }
     // Scrap direction change request for this step, if any
     this.relativeDirectionChangeRequest = "";
     // If the snake died, stop game
@@ -79,7 +94,6 @@ export class MainComponent {
     if (isDead) {
       this.stop();
     }
-    // TODO If snake is on top of pellet, eat it
     // Remove expired pellets
     _.remove(this.pellets, pellet => {
       return pellet.expired;
@@ -91,7 +105,7 @@ export class MainComponent {
   }
 
   addPellet() {
-    // Choose a random position that does not collide with other game elements todo let game elements decide if a position is taken by them
+    // Choose a random position that does not collide with other game elements TODO let game elements decide if a position is taken by them
     let randomPosition;
     let positionTaken = false;
     do {
@@ -99,8 +113,8 @@ export class MainComponent {
         x: Random.integer(0, this.gridSettings.horizontalCells - 1),
         y: Random.integer(0, this.gridSettings.verticalCells - 1)
       };
-      positionTaken = _.some(this.snake.segments, {x: randomPosition.x, y: randomPosition.y}) ||
-                      _.some(this.pellets, {x: randomPosition.x, y: randomPosition.y});
+      positionTaken = _.some(this.snake.segments, randomPosition) ||
+                      _.some(this.pellets, {position: randomPosition});
     } while (positionTaken);
     // Create pellet and add to array
     const pellet = new PelletComponent();

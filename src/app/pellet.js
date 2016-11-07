@@ -31,7 +31,7 @@ export class PelletComponent {
     const canvasContext: CanvasRenderingContext2D = this.gridCanvas.nativeElement.getContext("2d");
     const centerX = (this.position.x * this.gridSettings.cellSize) + (this.gridSettings.cellSize / 2);
     const centerY = (this.position.y * this.gridSettings.cellSize) + (this.gridSettings.cellSize / 2);
-    const radius = this.gridSettings.cellSize / 2;
+    const radius = (this.gridSettings.cellSize / 2) - 1;
     canvasContext.beginPath();
     canvasContext.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
     canvasContext.fillStyle = 'green';

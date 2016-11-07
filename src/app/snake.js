@@ -9,6 +9,9 @@ export class SnakeComponent {
   @Input() gridSettings: {};
   segments: {x: number, y: number}[];
   direction: string;
+  get head() {
+    return this.segments[this.segments.length - 1];
+  }
 
   spawn() {
     // Head is centered, rest of body appears to the bottom
@@ -38,44 +41,54 @@ export class SnakeComponent {
     }
   }
 
-  move() {
+  getNextHeadPosition() {
     // TODO check for ilegal moves
-    const head = this.segments[this.segments.length - 1];
-    // Add new head
+    let nextHeadPosition;
     switch (this.direction) {
       case 'down': {
-        const newY = head.y === this.gridSettings.verticalCells ?
+        const newY = this.head.y === this.gridSettings.verticalCells ?
                       0 :
-                      head.y + 1;
-        this.segments.push({x: head.x, y: newY});
+                      this.head.y + 1;
+        nextHeadPosition = {x: this.head.x, y: newY};
         break;
       }
       case 'up': {
-        const newY = head.y === 0 ?
+        const newY = this.head.y === 0 ?
                       this.gridSettings.verticalCells - 1 :
-                      head.y - 1;
-        this.segments.push({x: head.x, y: newY});
+                      this.head.y - 1;
+        nextHeadPosition = {x: this.head.x, y: newY};
         break;
       }
       case 'left': {
-        const newX = head.x === 0 ?
+        const newX = this.head.x === 0 ?
                       this.gridSettings.horizontalCells - 1 :
-                      head.x - 1;
-        this.segments.push({x: newX, y: head.y});
+                      this.head.x - 1;
+        nextHeadPosition = {x: newX, y: this.head.y};
         break;
       }
       case 'right': {
-        const newX = head.x === this.gridSettings.horizontalCells ?
+        const newX = this.head.x === this.gridSettings.horizontalCells ?
               0 :
-              head.x + 1;
-        this.segments.push({x: newX, y: head.y});
+              this.head.x + 1;
+        nextHeadPosition = {x: newX, y: this.head.y};
         break;
       }
       default:
         throw new Error(`direction not recognized: ${this.direction}`);
     }
-    // Remove last segment
+    return nextHeadPosition;
+  }
+
+  move() {
+    // Add new head
+    this.segments.push(this.getNextHeadPosition());
+    // Remove the last segment
     this.segments.shift();
+  }
+
+  grow() {
+    // Just add new head
+    this.segments.push(this.getNextHeadPosition());
   }
 
   getDirection(relativeDirectionChange: string) {
@@ -117,7 +130,6 @@ export class SnakeComponent {
 
   isDead() {
     // If the head hit the body, snake is dead
-    const head = this.segments[this.segments.length - 1];
-    return this.segments.filter(segment => segment.x === head.x && segment.y === head.y).length > 1;
+    return this.segments.filter(segment => segment.x === this.head.x && segment.y === this.head.y).length > 1;
   }
 }
