@@ -78,7 +78,8 @@
       "xo-space/esnext"
     ],
     "rules": {
-      "new-cap": 0
+      "new-cap": 0,
+      "linebreak-style": "off"
     }
   }
 }
