@@ -1,5 +1,5 @@
 # sneaky-snek
-Classic game of snake, trying out angular2 and html5 canvas
+Classic game of snake, implemented using angular2 and html5 canvas
 
 ## Build
 
