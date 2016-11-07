@@ -20,9 +20,12 @@ export class MainComponent {
   playButtonText: string;
   pelletsCount: number;
   score: number;
+  highScore: number;
 
   constructor() {
     this.playButtonText = "Play";
+    this.score = 0;
+    this.highScore = 0;
     this.pellets = [];
     this.pelletsCount = 8;
     // 800/16 = 50x50 cells
@@ -55,6 +58,10 @@ export class MainComponent {
     clearInterval(this.intervalLoopId);
     this.playButtonText = "Play again";
     this.running = false;
+    // Update max score if we did well this game
+    if (this.highScore < this.score) {
+      this.highScore = this.score;
+    }
   }
 
   runStep() {

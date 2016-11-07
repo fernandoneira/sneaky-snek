@@ -4,7 +4,7 @@
 
   <div class="score">
     Score:
-    <span>{{score}}</span>
+    <span [ngClass]="{'high-score': highScore < score }">{{score}}</span>
   </div>
 
   <div class="menu" *ngIf="!running">
