@@ -1,12 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Roboto');
+
 html, body, #root {
   margin: 0;
   height: 100%;
-  font-family: 'Open Sans', sans-serif;  
+  // Nicer font defaults
+  font-family: 'Roboto', sans-serif;
+  color: #626262;
+  font-size: 18px;
 }
 
 // Disable chrome outlining
 *:focus {
     outline: none;
+}
+
+h1 {
+  font-family: 'Gloria Hallelujah', cursive;
+  text-align: center;
+  font-size: 2.5em;
+  color: #00a496;
+  margin: 20px 0;
 }
 
 .sneaky-snek {
@@ -16,16 +29,13 @@ html, body, #root {
   // Helping to position the menu overlay
   position: relative;
 
-  h1 {
-    text-align: center;
-  }
-
   .score {
-    text-align: right;
-    padding: 5px 50px;
-    margin-bottom: -40px;
+    // Position in the top right corner on top of canvas
+    position: absolute;
+    top: 15px;
+    right: 50px;
     .high-score {
-      color: #ff9800;
+      color: #b31b1a;
       font-weight: bold;
     }
   }
@@ -39,14 +49,23 @@ html, body, #root {
     .menu-play {
       // Absolute centering
       transform: translate(-50%, -50%);
-      
+      // Nicer button
       padding: 20px 50px;
       font-size: 2em;
+      background: none;
+      border-radius: 50px;
+      border: 2px solid;      
+      color: #189389;
+      transition: .2s;
+      &:hover {
+        background-color: #189389;
+        color: #e7f5f6;
+      }
     }
   }
 
   canvas {
-    border: 1px solid #000;
-
+    box-shadow: 4px 4px 43px -9px rgba(76, 142, 145, 0.75);
+    background: #e7f5f6;
   }
 }
