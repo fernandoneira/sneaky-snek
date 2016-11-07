@@ -9,15 +9,19 @@ export class SnakeComponent {
   @Input() gridSettings: {};
   segments: {x: number, y: number}[];
   direction: string;
+  startingLength: number;
   get head() {
     return this.segments[this.segments.length - 1];
   }
 
+  constructor() {
+    this.startingLength = 6;
+  }
+
   spawn() {
     // Head is centered, rest of body appears to the bottom
-    const startingLength = 6;
     this.segments = [];
-    for (let i = 0; i < startingLength; i++) {
+    for (let i = 0; i < this.startingLength; i++) {
       this.segments.push(
         {
           x: this.gridSettings.horizontalCells / 2,

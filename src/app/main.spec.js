@@ -2,36 +2,31 @@ import {Component} from '@angular/core';
 import {TestBed, async} from '@angular/core/testing';
 import {MainComponent} from './main';
 
-@Component({selector: 'fountain-techs', template: ''})
-class MockTechsComponent {}
-@Component({selector: 'fountain-footer', template: ''})
-class MockFooterComponent {}
-@Component({selector: 'fountain-header', template: ''})
-class MockHeaderComponent {}
-@Component({selector: 'fountain-title', template: ''})
-class MockTitleComponent {}
+@Component({selector: 'sneeaky-snek-snake', template: ''})
+class MockSnakeComponent {}
+@Component({selector: 'sneeaky-snek-pellet', template: ''})
+class MockPelletComponent {}
 
 describe('Main Component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         MainComponent,
-        MockTechsComponent,
-        MockFooterComponent,
-        MockHeaderComponent,
-        MockTitleComponent
+        MockSnakeComponent,
+        MockPelletComponent
       ]
     });
     TestBed.compileComponents();
   }));
 
-  it('should render the header, title, techs and footer', () => {
+  it('should render the snake and the pellets', () => {
     const fixture = TestBed.createComponent(MainComponent);
     fixture.detectChanges();
     const main = fixture.nativeElement;
-    expect(main.querySelector('fountain-header')).toBeDefined();
-    expect(main.querySelector('fountain-title')).toBeDefined();
-    expect(main.querySelector('fountain-techs')).toBeDefined();
-    expect(main.querySelector('fountain-footer')).toBeDefined();
+    expect(main.querySelector('sneeaky-snek-snake')).toBeDefined();
+    expect(main.querySelector('sneeaky-snek-pellet')).toBeDefined();
   });
+
+  // todo write more tests, fix existing
+
 });
