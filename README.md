@@ -8,4 +8,4 @@ Classic game of snake, implemented using angular2 and html5 canvas
     
 ## Controls
 
-The snake can be controlled with the left and right arrow keys. The snake will turn relative to its travel direction.
+The snake can be controlled with the left,right, up and down arrow keys.
