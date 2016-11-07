@@ -12,6 +12,7 @@ const Random = require("random-js")();
 export class MainComponent {
   @ViewChild("gridCanvas") gridCanvas: ElementRef;
   @ViewChild("snake") snake: SnakeComponent;
+  @ViewChild("gameArea") gameArea: ElementRef;
   pellets: [];
   gridSettings: {};
   relativeDirectionChangeRequest: string;
@@ -44,6 +45,8 @@ export class MainComponent {
   start() {
     this.running = true;
     this.score = 0;
+    // Set focus in the canvas so keypresses act directly on it
+    this.gameArea.nativeElement.focus();
     // Spawn game elements
     this.spawnElements();
     // Init game draw
