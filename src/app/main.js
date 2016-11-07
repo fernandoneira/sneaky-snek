@@ -54,7 +54,7 @@ export class MainComponent {
     // Start the game loop
     this.intervalLoopId = setInterval(() => {
       this.runStep();
-    }, 200);
+    }, 150);
   }
 
   stop() {
