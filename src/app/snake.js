@@ -95,40 +95,16 @@ export class SnakeComponent {
     this.segments.push(this.getNextHeadPosition());
   }
 
-  getDirection(relativeDirectionChange: string) {
-    if (relativeDirectionChange) {
-      switch (relativeDirectionChange) {
-        case 'left':
-          switch (this.direction) {
-            case 'down':
-              return 'right';
-            case 'up':
-              return 'left';
-            case 'left':
-              return 'down';
-            case 'right':
-              return 'up';
-            default:
-              throw new Error(`direction not recognized: ${this.direction}`);
-          }
-        case 'right':
-          switch (this.direction) {
-            case 'down':
-              return 'left';
-            case 'up':
-              return 'right';
-            case 'left':
-              return 'up';
-            case 'right':
-              return 'down';
-            default:
-              throw new Error(`direction not recognized: ${this.direction}`);
-          }
-        default:
-          throw new Error(`relative direction change not recognized: ${relativeDirectionChange}`);
+  changeDirection(newDirection: string) {
+    if (newDirection) {
+      // TODO check directionChange to be one of appropiate values. This should be changed to a type/enum anyways
+      const isMoveIllegal = newDirection === 'up' && this.direction === 'down' ||
+                            newDirection === 'down' && this.direction === 'up' ||
+                            newDirection === 'left' && this.direction === 'right' ||
+                            newDirection === 'right' && this.direction === 'left';
+      if (!isMoveIllegal) {
+        this.direction = newDirection;
       }
-    } else {
-      return this.direction;
     }
   }
 

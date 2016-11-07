@@ -15,7 +15,7 @@ export class MainComponent {
   @ViewChild("gameArea") gameArea: ElementRef;
   pellets: [];
   gridSettings: {};
-  relativeDirectionChangeRequest: string;
+  directionChangeRequest: string;
   running: true;
   intervalLoopId: number;
   playButtonText: string;
@@ -81,8 +81,9 @@ export class MainComponent {
 
   update() {
     // Recalculate snake direction and next head position
-    const snakeDirection = this.snake.getDirection(this.relativeDirectionChangeRequest);
-    this.snake.direction = snakeDirection;
+    if (this.directionChangeRequest) {
+      this.snake.changeDirection(this.directionChangeRequest);
+    }
     const nextHeadPosition = this.snake.getNextHeadPosition();
     // If snake is moving on top of pellet, eat it
     const ediblePellet = _.find(this.pellets, {position: nextHeadPosition});
@@ -98,7 +99,7 @@ export class MainComponent {
       this.snake.move();
     }
     // Scrap direction change request for this step, if any
-    this.relativeDirectionChangeRequest = "";
+    this.directionChangeRequest = "";
     // If the snake died, stop game
     const isDead = this.snake.isDead();
     if (isDead) {
@@ -155,13 +156,19 @@ export class MainComponent {
     console.log(event, event.keyCode, event.keyIdentifier);
     switch (event.key) {
       case 'ArrowLeft':
-        // Set (or overwrite) a direction change to the left request for the next game update
-        this.relativeDirectionChangeRequest = "left";
-        break;
+        // Set (or overwrite) a direction change request for the next game update
+        this.directionChangeRequest = "left";
+        // Stop keypress from having any other effects outside the game
+        return false;
       case 'ArrowRight':
-        // Set (or overwrite) a direction change to the right request for the next game update
-        this.relativeDirectionChangeRequest = "right";
-        break;
+        this.directionChangeRequest = "right";
+        return false;
+      case 'ArrowUp':
+        this.directionChangeRequest = "up";
+        return false;
+      case 'ArrowDown':
+        this.directionChangeRequest = "down";
+        return false;
       default:
         break;
     }
