@@ -96,8 +96,8 @@ export class MainComponent {
     let positionTaken = false;
     do {
       randomPosition = {
-        x: Random.integer(0, this.gridSettings.horizontalCells),
-        y: Random.integer(0, this.gridSettings.verticalCells)
+        x: Random.integer(0, this.gridSettings.horizontalCells - 1),
+        y: Random.integer(0, this.gridSettings.verticalCells - 1)
       };
       positionTaken = _.some(this.snake.segments, {x: randomPosition.x, y: randomPosition.y}) ||
                       _.some(this.pellets, {x: randomPosition.x, y: randomPosition.y});
